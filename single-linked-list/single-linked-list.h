@@ -128,22 +128,23 @@ class SingleLinkedList {
 public:
     template <typename Container>
     void CreateSingleLinkedList(SingleLinkedList& list, const Container& values) {
-        list.head_.next_node = nullptr;
-        list.size_ = values.size();
-        Node** new_elem = &list.head_.next_node;
+        SingleLinkedList temp;
+        temp.head_.next_node = nullptr;
+        temp.size_ = values.size();
+        Node** new_elem = &temp.head_.next_node;
         for (auto& value : values) {
             *new_elem = new Node(value, nullptr);
             new_elem = &((*new_elem)->next_node);
         }
+        swap(temp);
     }
     SingleLinkedList(std::initializer_list<Type> values) {
         CreateSingleLinkedList(*this, values);
     }
 
     SingleLinkedList(const SingleLinkedList& other) {
-        SingleLinkedList temp;
-        CreateSingleLinkedList(temp, other);
-        swap(temp);
+        CreateSingleLinkedList(*this, other);
+
     }
 
     SingleLinkedList& operator=(const SingleLinkedList& rhs) {
